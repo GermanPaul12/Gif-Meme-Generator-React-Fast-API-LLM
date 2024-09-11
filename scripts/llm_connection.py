@@ -5,13 +5,13 @@ from get_joke import get_joke
 
 load_dotenv()
 
-def get_important_word():
+def get_important_word(joke):
     """
     This function uses the Zukijourney API to analyze a joke and extract the most important entity or emotion from it.
     Follow Quickl start guide to get api key: https://docs.zukijourney.com/ai
     
     Parameters:
-    No parameters are required for this function.
+    joke (str): The joke as a string
 
     Returns:
     The function returns a string containing the most important entity or emotion extracted from the joke.#+
@@ -32,10 +32,11 @@ def get_important_word():
         messages=[{"role": "system", "content": "You have to find the most important entity inside a joke and only output this entity. If there is no entity which is meme worthy then output an emotion. Your response will be used to find a suitable image for the joke."}, 
                             {"role": "user", "content": "Life's is like my dick. The more children the harder it gets."}, 
                             {"role": "assistant", "content": "children"},
-                            {"role": "user", "content": get_joke()}
+                            {"role": "user", "content": str(joke)}
         ])
     return response.choices[0].message.content
 
 
 if __name__ == "__main__":
-    print(get_important_word())
+    joke = get_joke()
+    print(get_important_word(joke))

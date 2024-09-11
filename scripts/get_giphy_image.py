@@ -30,7 +30,9 @@ def get_gif(query):
         data = res.json()
         first_gif = data['data'][0]
         embed_url = first_gif['embed_url']
-        return embed_url
+        if embed_url == None:
+            pass
+        else: return embed_url
     else:
         print("Error fetching GIF")
         return None
