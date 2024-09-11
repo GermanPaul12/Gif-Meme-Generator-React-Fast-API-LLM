@@ -2,7 +2,7 @@ import requests
 
 def get_joke():
     """
-    Fetches a joke from the Joke API and returns it as a string.#+
+    Fetches a joke from the Joke API (https://sv443.net/jokeapi/v2/#try-it) and returns it as a string.
 
     Parameters:
     No parameters are required for this function.#+
