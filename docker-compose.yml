@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./fastapi-react/backend/Dockerfile
+    container_name: fastapi-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./fastapi-react/backend:/app
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./fastapi-react/frontend
+      dockerfile: Dockerfile
+    container_name: react-frontend
+    ports:
+      - "5167:5167"  # Map container port 5167 to host port 5167
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    command: npm run dev  # Use Vite's development server
+
+networks:
+  app-network:
+    driver: bridge
