@@ -59,10 +59,10 @@ def get_gif(query):
     if res.status_code == 200:
         data = res.json()
         first_gif = data['data'][0]
-        embed_url = first_gif['embed_url']
-        if embed_url == None:
+        gif_url = first_gif['images']['original']['url']
+        if gif_url == None:
             pass
-        else: return embed_url
+        else: return gif_url
     else:
         print("Error fetching GIF")
         return None
@@ -98,25 +98,18 @@ def get_important_word(joke):
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000",
-    "localhost:3000"
-]
-
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:5173"],  # Add your React app's URL
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
-
-joke = str(get_joke())
-important_word = get_important_word(joke)
-gif_url = get_gif(important_word)
 
 
 @app.get("/", tags=["root"])
 async def read_root() -> dict:
+    joke = str(get_joke())
+    important_word = get_important_word(joke)
+    gif_url = get_gif(important_word)
     return {"joke": joke, "important_word": important_word, "gif_url": gif_url}

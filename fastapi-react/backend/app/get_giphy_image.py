@@ -23,16 +23,17 @@ def get_gif(query):
     gif_url = get_gif(query)
     print(f"Gif found: {gif_url}")
     """
+    API_KEY = os.getenv("GIPHY_API_KEY")
     URL = 'https://api.giphy.com/v1/gifs/search'
     params = {'q': query, 'limit': 1, 'api_key': API_KEY}
     res = requests.get(URL, params)
     if res.status_code == 200:
         data = res.json()
         first_gif = data['data'][0]
-        embed_url = first_gif['embed_url']
-        if embed_url == None:
+        gif_url = first_gif['images']['original']['url']
+        if gif_url == None:
             pass
-        else: return embed_url
+        else: return gif_url
     else:
         print("Error fetching GIF")
         return None
